@@ -1,0 +1,6 @@
+.direnv*
+.DS_Store
+/build/
+/lake-packages/
+/lakefile.olean
+/.lake/
