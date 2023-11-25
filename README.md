@@ -8,6 +8,6 @@ results in an interactive fashion.
 
 ### run all solutions
 
-```
+```console
 lake exe aoc
 ```
