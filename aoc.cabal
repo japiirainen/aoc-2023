@@ -1,0 +1,98 @@
+cabal-version:      2.4
+name:               aoc
+version:            0.1.0.0
+license:            MIT
+copyright:          2023 Joona Piirainen
+maintainer:         joona.piirainen@gmail.com
+author:             Joona Piirainen
+category:           PL
+extra-source-files:
+  LICENSE
+  README.md
+
+common shared
+  ghc-options:
+    -Wall -Wincomplete-record-updates -Wincomplete-uni-patterns
+    -Wmissing-deriving-strategies -Wunused-foralls -Wunused-foralls
+    -fprint-explicit-foralls -fprint-explicit-kinds -Wno-name-shadowing
+    -Wno-unused-do-bind
+
+  default-extensions:
+    BangPatterns
+    BlockArguments
+    ConstraintKinds
+    DataKinds
+    DeriveDataTypeable
+    DeriveFoldable
+    DeriveFunctor
+    DeriveGeneric
+    DeriveLift
+    DeriveTraversable
+    DerivingStrategies
+    DerivingVia
+    DuplicateRecordFields
+    EmptyCase
+    EmptyDataDecls
+    EmptyDataDeriving
+    ExistentialQuantification
+    ExplicitForAll
+    FlexibleContexts
+    FlexibleInstances
+    GADTSyntax
+    GeneralisedNewtypeDeriving
+    ImportQualifiedPost
+    KindSignatures
+    LambdaCase
+    MultiParamTypeClasses
+    MultiWayIf
+    NamedFieldPuns
+    NoStarIsType
+    NumericUnderscores
+    OverloadedStrings
+    PolyKinds
+    PostfixOperators
+    RankNTypes
+    RecordWildCards
+    ScopedTypeVariables
+    StandaloneDeriving
+    StandaloneKindSignatures
+    StrictData
+    TemplateHaskell
+    TupleSections
+    TypeApplications
+    TypeFamilies
+    TypeOperators
+    ViewPatterns
+
+  default-language:   Haskell2010
+
+library lib
+  import:          shared
+  build-depends:
+    , base
+    , containers
+    , text
+
+  hs-source-dirs:  lib
+  exposed-modules: Parsing
+
+executable aoc
+  import:         shared
+  build-depends:
+    , base
+    , containers
+    , text
+
+  hs-source-dirs: .
+  main-is:        Main.hs
+
+executable 01
+  import:         shared
+  build-depends:
+    , base
+    , containers
+    , lib
+    , text
+
+  hs-source-dirs: solutions
+  main-is:        01.hs
