@@ -7,23 +7,10 @@
 This project is usable either via `nix` or via `cabal`. I will provide
 commands for both in the following sections.
 
-### run all solutions
 
-#### nix
+### running solution
 
-```sh
-nix run .#aoc
-```
-
-#### cabal
-
-```sh
-cabal run exe:aoc
-```
-
-### run specific solution
-
-It is possible to run only a specific day. In this example day # `01` is ran.
+In this example day # `01` is ran.
 
 #### nix
 

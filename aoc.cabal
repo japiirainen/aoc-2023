@@ -74,17 +74,9 @@ library lib
     , text
 
   hs-source-dirs:  lib
-  exposed-modules: Parsing
-
-executable aoc
-  import:         shared
-  build-depends:
-    , base
-    , containers
-    , text
-
-  hs-source-dirs: .
-  main-is:        Main.hs
+  exposed-modules:
+    Adlude
+    Parsing
 
 executable 01
   import:         shared

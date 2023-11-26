@@ -48,8 +48,8 @@
           };
         };
 
-        packages.default = self'.packages.aoc;
-        apps.default = self'.apps.aoc;
+        packages.default = self'.packages."01";
+        apps.default = self'.apps."01";
 
         devShells.default = pkgs.mkShell {
           name = "aoc";
