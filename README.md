@@ -1,25 +1,13 @@
-# aoc-2023
+# Advent of Code 2023
 
-[Advent of Code 2023](https://adventofcode.com/2023) solutions written in [Haskell](https://www.haskell.org/).
+My [Advent of Code 2023](https://adventofcode.com/2023) solutions.
 
 ## usage
 
-This project is usable either via `nix` or via `cabal`. I will provide
-commands for both in the following sections.
+All solutions expect to receive input from `stdin`.
 
-
-### running solution
-
-In this example day # `01` is ran.
-
-#### nix
+So to run day 01 you need to do the following.
 
 ```sh
-nix run .#01
-```
-
-#### cabal
-
-```sh
-cabal run exe:01
+./src/01.py < input/01.txt
 ```

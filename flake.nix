@@ -2,67 +2,43 @@
   description = "Advent of Code 2023";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    systems.url = "github:nix-systems/default";
-    flake-parts.url = "github:hercules-ci/flake-parts";
-    haskell-flake.url = "github:srid/haskell-flake";
-    treefmt-nix.url = "github:numtide/treefmt-nix";
-    treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
+    flake-utils.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs:
-    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = import inputs.systems;
-      imports = [
-        inputs.haskell-flake.flakeModule
-        inputs.treefmt-nix.flakeModule
+  outputs =
+    { nixpkgs
+    , flake-utils
+    , ...
+    }:
+
+    flake-utils.lib.eachDefaultSystem (system:
+    let
+      overlays = [
+        (_: super: {
+          python = super.python311;
+        })
       ];
-      perSystem = { self', config, pkgs, ... }: {
-        haskellProjects.default = {
+      pkgs = import nixpkgs { inherit overlays system; };
+    in
+    {
+      devShells.default = pkgs.mkShell {
+        packages =
+          (with pkgs; [ python pyright black pylint ]) ++
+          (with pkgs.pythonPackages;
+          [
+            more-itertools
+            numpy
+            sympy
+            networkx
+            matplotlib
+          ]);
 
-          packages = { };
-
-          settings = { };
-
-          devShell = {
-            hlsCheck.enable = false;
-          };
-
-          autoWire = [ "packages" "apps" "checks" ];
-        };
-
-        treefmt.config = {
-          projectRootFile = "flake.nix";
-
-          programs.ormolu.enable = true;
-          programs.nixpkgs-fmt.enable = true;
-          programs.cabal-fmt.enable = true;
-          programs.hlint.enable = true;
-
-          programs.ormolu.package = pkgs.haskellPackages.fourmolu;
-          settings.formatter.ormolu = {
-            options = [
-              "--ghc-opt"
-              "-XImportQualifiedPost"
-            ];
-          };
-        };
-
-        packages.default = self'.packages."01";
-        apps.default = self'.apps."01";
-
-        devShells.default = pkgs.mkShell {
-          name = "aoc";
-          inputsFrom = [
-            config.haskellProjects.default.outputs.devShell
-            config.treefmt.build.devShell
-          ];
-          nativeBuildInputs = with pkgs; [
-            just
-            zlib
-            icu
-          ];
-        };
+        shellHook = with pkgs;
+          ''
+            ${python}/bin/python --version
+          '';
       };
-    };
+    });
 }
