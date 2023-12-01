@@ -6,8 +6,8 @@ My [Advent of Code 2023](https://adventofcode.com/2023) solutions.
 
 All solutions expect to receive input from `stdin`.
 
-So to run day 01 you need to do the following.
+So to run day [01p1](./01p1) you need to do the following.
 
 ```sh
-./src/01.py < input/01.txt
+./01p1/main.py < 01p1/01.txt
 ```
