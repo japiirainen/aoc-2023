@@ -33,6 +33,7 @@
             sympy
             networkx
             matplotlib
+            requests
           ]);
 
         shellHook = with pkgs;
