@@ -10,9 +10,8 @@ for g in rest:
     new = []
     for seed in seeds:
         for dest, src, n in ranges:
-            if src <= seed < src + n:
+            if seed in range(src, src + n):
                 new.append(seed - src + dest)
-                break
         else:
             new.append(seed)
     seeds = new

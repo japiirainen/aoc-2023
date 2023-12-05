@@ -6,15 +6,16 @@ i = [int(x) for x in i.split(": ")[1].split()]
 
 seeds = [(i[j], i[j] + i[j + 1]) for j in range(0, len(i), 2)]
 
+overlap = lambda start, end, src, n: (max(start, src), min(end, src + n))
+
 for g in rest:
     xs = g.strip().split("\n")[1:]
     ranges = [[int(y) for y in x.split()] for x in xs]
     new = []
-    while len(seeds) > 0:
+    while seeds:
         s, e = seeds.pop()
         for dest, src, n in ranges:
-            os = max(s, src)
-            oe = min(e, src + n)
+            os, oe = overlap(s, e, src, n)
             if os < oe:
                 new.append((os - src + dest, oe - src + dest))
                 if os > s:
