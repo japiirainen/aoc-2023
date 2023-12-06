@@ -34,6 +34,6 @@ lb = lo + 1
 
 # We can use the fact that g is symmetric (E.g. for a function f, ∀ x y. f(x, y) = f(y, x))
 # to find the upper bound.
-ub = (time // 2) + (time // 2 - lb) + (1 if time % 2 == 1 else 0)
+ub = int((time / 2) + (time / 2 - lb))
 
 print(ub - lb + 1)
