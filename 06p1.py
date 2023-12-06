@@ -2,15 +2,18 @@
 
 import re
 import numpy as np
+from math import sqrt, floor, ceil, prod
 
 i = np.array([[int(x) for x in re.findall(r"\d+", line)] for line in open(0)])
 
-t = 1
-for time, dist in i.T:
-    ws = 0
-    for n in range(time + 1):
-        if n * (time - n) > dist:
-            ws += 1
-    t *= ws
 
-print(t)
+def span(t, d):
+    # x(t - x) > d
+    # x^2 - tx > d
+    # x^2 - tx + d < 0
+    disc = sqrt(t**2 - 4 * d)
+    mi, ma = (t - disc) / 2, (t + disc) / 2
+    return ceil(ma) - floor(mi) - 1
+
+
+print(prod(span(*x) for x in i.T))
