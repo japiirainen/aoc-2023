@@ -3,10 +3,11 @@
 import re
 from operator import add
 from functools import reduce
-from math import sqrt, floor, ceil
+from math import floor, ceil
+from sympy import solve, symbols
 
 t, d = [int(reduce(add, [x for x in re.findall(r"\d+", line)])) for line in open(0)]
 
-disc = sqrt(t**2 - 4 * d)
-mi, ma = (t - disc) / 2, (t + disc) / 2
+x = symbols("x")
+mi, ma = solve(x**2 - t * x + d)
 print(ceil(ma) - floor(mi) - 1)
