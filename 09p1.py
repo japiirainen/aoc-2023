@@ -1,14 +1,11 @@
 #!/usr/bin/env python3
 
-diffs = lambda xs: [b - a for a, b in zip(xs, xs[1:])]
+from itertools import pairwise
 
+diffs = lambda xs: [b - a for a, b in pairwise(xs)]
 
-def next_in_seq(xs):
-    out = []
-    while not all(x == 0 for x in xs):
-        out.append(xs[-1])
-        xs = diffs(xs)
-    return sum(out)
-
+next_in_seq = (
+    lambda xs: 0 if all(x == 0 for x in xs) else xs[-1] + next_in_seq(diffs(xs))
+)
 
 print(sum(next_in_seq(list(map(int, line.split()))) for line in open(0)))
