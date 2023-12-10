@@ -40,4 +40,4 @@ while q:
             loop.add((nr, nc))
             q.append(((nr, nc), d + 1))
 
-print(len(loop) // 2)
+print(len(loop) // 2 + (1 if len(loop) % 2 == 1 else 0))
