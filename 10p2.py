@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from re import sub
 from collections import deque
 
 grid = [list(line) for line in open(0).read().strip().splitlines()]
@@ -45,23 +46,12 @@ grid = [
     for r, row in enumerate(grid)
 ]
 
-outside = set()
+inside = 0
 
-for r, row in enumerate(grid):
-    within = False
-    up = None
-    for c, ch in enumerate(row):
-        if ch == "|":
-            within = not within
-        elif ch in "LF":
-            up = ch == "L"
-        elif ch in "7J":
-            if ch != ("J" if up else "7"):
-                within = not within
-            up = None
-        elif ch == ".":
-            pass
-        if not within:
-            outside.add((r, c))
+for row in grid:
+    pc = 0
+    for ch in sub(r"[LJF7]", "", sub(r"F-*J|L-*7", "|", row)):
+        pc += ch == "|"
+        inside += ch == "." and pc % 2 == 1
 
-print(len(grid) * len(grid[0]) - len(outside | loop))
+print(inside)
