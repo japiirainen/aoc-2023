@@ -38,4 +38,4 @@ while q:
             loop.add((nr, nc))
             q.append((nr, nc))
 
-print(len(loop) // 2 + (1 if len(loop) % 2 == 1 else 0))
+print(len(loop) // 2)
