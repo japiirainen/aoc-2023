@@ -18,11 +18,11 @@ def valid_move(dr, dc, prv, ch):
 
 S = next((r, c) for r, row in enumerate(grid) for c, ch in enumerate(row) if ch == "S")
 
-q = deque([(S, 0)])
+q = deque([S])
 loop = {S}
 
 while q:
-    (r, c), d = q.popleft()
+    r, c = q.popleft()
 
     for dr, dc in ((0, 1), (0, -1), (1, 0), (-1, 0)):
         nr, nc = r + dr, c + dc
@@ -36,6 +36,6 @@ while q:
             and valid_move(dr, dc, grid[r][c], grid[nr][nc])
         ):
             loop.add((nr, nc))
-            q.append(((nr, nc), d + 1))
+            q.append((nr, nc))
 
 print(len(loop) // 2 + (1 if len(loop) % 2 == 1 else 0))

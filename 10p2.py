@@ -18,13 +18,13 @@ def next_req(dr, dc, prv, ch):
 
 S = next((r, c) for r, row in enumerate(grid) for c, ch in enumerate(row) if ch == "S")
 
-q = deque([(S, 0)])
+q = deque([S])
 loop = {S}
 
 s = {"|", "-", "J", "L", "7", "F"}
 
 while q:
-    (r, c), d = q.popleft()
+    r, c = q.popleft()
 
     for dr, dc in ((0, 1), (0, -1), (1, 0), (-1, 0)):
         nr, nc = r + dr, c + dc
@@ -36,7 +36,7 @@ while q:
             req = next_req(dr, dc, grid[r][c], grid[nr][nc])
             if req:
                 loop.add((nr, nc))
-                q.append(((nr, nc), d + 1))
+                q.append((nr, nc))
                 s &= set(req) if grid[r][c] == "S" else s
 
 (S,) = s
