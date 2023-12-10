@@ -5,15 +5,15 @@ from collections import deque
 grid = [list(line) for line in open(0).read().strip().splitlines()]
 
 
-def next_req(dr, dc, prv):
-    if (dr, dc) == (0, 1) and prv in "S-LF":
-        return "-J7"
-    if (dr, dc) == (0, -1) and prv in "S-J7":
-        return "-LF"
-    if (dr, dc) == (1, 0) and prv in "S|7F":
-        return "|JL"
-    if (dr, dc) == (-1, 0) and prv in "S|JL":
-        return "|F7"
+def valid_move(dr, dc, prv, ch):
+    if (dr, dc) == (0, 1):
+        return prv in "S-LF" and ch in "-J7"
+    if (dr, dc) == (0, -1):
+        return prv in "S-J7" and ch in "-LF"
+    if (dr, dc) == (1, 0):
+        return prv in "S|7F" and ch in "|JL"
+    if (dr, dc) == (-1, 0):
+        return prv in "S|JL" and ch in "|F7"
 
 
 S = next((r, c) for r, row in enumerate(grid) for c, ch in enumerate(row) if ch == "S")
@@ -32,10 +32,12 @@ while q:
         if (nr, nc) in loop:
             continue
 
-        if 0 <= nr < len(grid) and 0 <= nc < len(grid[0]):
-            req = next_req(dr, dc, grid[r][c])
-            if req and grid[nr][nc] in req:
-                loop.add((nr, nc))
-                q.append(((nr, nc), d + 1))
+        if (
+            0 <= nr < len(grid)
+            and 0 <= nc < len(grid[0])
+            and valid_move(dr, dc, grid[r][c], grid[nr][nc])
+        ):
+            loop.add((nr, nc))
+            q.append(((nr, nc), d + 1))
 
 print(len(loop) // 2)
