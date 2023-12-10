@@ -18,9 +18,7 @@ def valid_move(dr, dc, prv, ch):
 
 S = next((r, c) for r, row in enumerate(grid) for c, ch in enumerate(row) if ch == "S")
 
-q = deque()
-q.append((S, 0))
-
+q = deque([(S, 0)])
 loop = {S}
 
 while q:
