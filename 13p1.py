@@ -2,15 +2,13 @@
 
 
 def check(p):
-    for i, (a, b) in enumerate(zip(p, p[1:])):
-        if a == b:
-            for j in range(len(p) - (i + 2)):
-                s = i - j - 1
-                e = i + 2 + j
-                if s >= 0 and e < len(p) and p[s] != p[e]:
-                    break
-            else:
-                return i + 1
+    for r in range(1, len(p)):
+        above = p[:r][::-1]
+        below = p[r:]
+        above = above[: len(below)]
+        below = below[: len(above)]
+        if above == below:
+            return r
     return 0
 
 
