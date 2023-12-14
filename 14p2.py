@@ -1,48 +1,33 @@
 #!/usr/bin/env python3
 
-grid = [list(row) for row in open(0).read().strip().splitlines()]
+T = lambda xs: tuple(map("".join, zip(*xs)))
+
+G = tuple(open(0).read().splitlines())
 
 
-def roll(grid):
-    for c in range(len(grid)):
-        for _ in range(len(grid[c])):
-            for r in range(len(grid[c])):
-                if grid[r][c] == "O" and r > 0 and grid[r - 1][c] == ".":
-                    grid[r - 1][c] = "O"
-                    grid[r][c] = "."
-    return grid
-
-
-def rotate(grid):
-    ng = [["-1" for _ in range(len(grid))] for _ in range(len(grid[0]))]
-    for c in range(len(grid)):
-        for r in range(len(grid[c])):
-            ng[c][len(grid[c]) - r - 1] = grid[r][c]
-    return ng
-
-
-m = {}
-
-cycles = 10**9
-cycle = 0
-while cycle < cycles:
-    cycle += 1
+def cycle(G):
     for _ in range(4):
-        grid = roll(grid)
-        grid = rotate(grid)
+        G = tuple(
+            "#".join(
+                "".join(sorted(tuple(grp), reverse=True)) for grp in row.split("#")
+            )
+            for row in T(G)
+        )
+        G = tuple(xs[::-1] for xs in G)
+    return G
 
-    rep = tuple(tuple(row) for row in grid)
-    if rep in m:
-        cycle_len = cycle - m[rep]
-        amt = (cycles - cycle) // cycle_len
-        cycle += amt * cycle_len
-    m[rep] = cycle
 
-print(
-    sum(
-        len(grid) - r
-        for c in range(len(grid))
-        for r in range(len(grid[c]))
-        if grid[r][c] == "O"
-    )
-)
+i = 0
+grids = [G]
+while True:
+    i += 1
+    G = cycle(G)
+    if G in grids:
+        break
+    grids.append(G)
+
+idx = grids.index(G)
+
+G = grids[(10**9 - idx) % (i - idx) + idx]
+
+print(sum(row.count("O") * (len(G) - r) for r, row in enumerate(G)))

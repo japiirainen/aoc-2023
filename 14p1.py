@@ -1,19 +1,10 @@
 #!/usr/bin/env python3
 
-grid = [list(row) for row in open(0).read().strip().splitlines()]
+T = lambda xs: list(map("".join, zip(*xs)))
 
-for c in range(len(grid)):
-    for _ in range(len(grid[c])):
-        for r in range(len(grid[c])):
-            if grid[r][c] == "O" and r > 0 and grid[r - 1][c] == ".":
-                grid[r - 1][c] = "O"
-                grid[r][c] = "."
-
-print(
-    sum(
-        len(grid) - r
-        for c in range(len(grid))
-        for r in range(len(grid[c]))
-        if grid[r][c] == "O"
-    )
-)
+G = open(0).read().splitlines()
+G = [
+    "#".join("".join(sorted(list(grp), reverse=True)) for grp in row.split("#"))
+    for row in T(G)
+]
+print(sum(row.count("O") * (len(G) - r) for r, row in enumerate(T(G))))
