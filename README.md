@@ -19,7 +19,7 @@ export COOKIE=<cookie here>
 
 All solutions expect to receive input from `stdin`.
 
-So to run day [01p1](./src/01p1) you need to do the following.
+So to run day [01p1](./src/01p1.py) you need to do the following.
 
 ```sh
 ./src/01p1.py < <inputfile>
