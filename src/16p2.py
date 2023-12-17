@@ -39,5 +39,4 @@ def solve(r, c, dr, dc):
 
 rs = ([solve(r, -1, 0, 1), solve(r, C, 0, -1)] for r in range(R))
 cs = ([solve(-1, c, 1, 0), solve(R, c, -1, 0)] for c in range(C))
-m = max(chain(*rs, *cs))
-print(m)
+print(max(chain(*rs, *cs)))
