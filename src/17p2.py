@@ -7,7 +7,7 @@ R = len(grid)
 C = len(grid[0])
 
 sr, sc = 0, 0
-seen = {}
+seen = set()
 q = [(0, sr, sc, 0, -1)]  # heat_loss, r, c, dir, straight_moves
 
 while q:
@@ -20,7 +20,7 @@ while q:
     if (r, c, dir_, sm) in seen:
         continue
 
-    seen[(r, c, dir_, sm)] = hl
+    seen.add((r, c, dir_, sm))
 
     for i, (dr, dc) in enumerate([(-1, 0), (0, 1), (1, 0), (0, -1)]):
         rr, cc = r + dr, c + dc
