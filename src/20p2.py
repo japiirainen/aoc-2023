@@ -37,20 +37,15 @@ while True:
 
     while q:
         src, tgt, pulse = q.popleft()
-
         if tgt not in nodes:
             continue
-
         node = nodes[tgt]
-
         if node["name"] == to_feed and pulse == "hi":
             if src not in cycles:
                 cycles[src] = t
-
             if len(cycles.values()) == C:
                 print(lcm(*cycles.values()))
                 exit(0)
-
         if node["type"] == "&":
             node["memory"][src] = pulse
             msg = "lo" if all(x == "hi" for x in node["memory"].values()) else "hi"

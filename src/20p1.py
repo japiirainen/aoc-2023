@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from collections import deque
+from math import prod
 
 nodes = {}
 broadcast_targets = []
@@ -23,27 +24,20 @@ for name, node in nodes.items():
         if out in nodes and nodes[out]["type"] == "&":
             nodes[out]["memory"][name] = "lo"
 
-lo, hi = 0, 0
+pulses = {"lo": 0, "hi": 0}
 
 for _ in range(1000):
-    lo += 1  # button is pressed
+    pulses["lo"] += 1  # button is pressed
     q: deque[tuple[str, str, str]] = deque(
         [("broadcaster", x, "lo") for x in broadcast_targets]
     )
 
     while q:
         src, tgt, pulse = q.popleft()
-
-        if pulse == "lo":
-            lo += 1
-        else:
-            hi += 1
-
+        pulses[pulse] += 1
         if tgt not in nodes:
             continue
-
         node = nodes[tgt]
-
         if node["type"] == "&":
             node["memory"][src] = pulse
             msg = "lo" if all(x == "hi" for x in node["memory"].values()) else "hi"
@@ -56,4 +50,4 @@ for _ in range(1000):
                 for out in node["outputs"]:
                     q.append((node["name"], out, msg))
 
-print(lo * hi)
+print(prod(pulses.values()))
