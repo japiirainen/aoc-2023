@@ -16,6 +16,7 @@ for line in open(0):
     r, c = ps[-1]
     ps.append((r + dr * n, c + dc * n))
 
+# shoelace formula + pick's theorem
 a = (
     abs(
         sum(
