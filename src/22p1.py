@@ -1,47 +1,35 @@
 #!/usr/bin/env python3
 
-import re
-from collections import defaultdict
+bricks = [list(map(int, line.replace("~", ",").split(","))) for line in open(0)]
+bricks.sort(key=lambda x: x[2])
 
-
-def dropped_brick(tallest, brick):
-    peak = max(
-        tallest[(x, y)]
-        for x in range(brick[0], brick[3] + 1)
-        for y in range(brick[1], brick[4] + 1)
-    )
-    dz = max(brick[2] - peak - 1, 0)
-    return (brick[0], brick[1], brick[2] - dz, brick[3], brick[4], brick[5] - dz)
-
-
-def drop(tower):
-    tallest = defaultdict(int)
-    new_tower = []
-    falls = 0
-    for brick in tower:
-        new_brick = dropped_brick(tallest, brick)
-        if new_brick[2] != brick[2]:
-            falls += 1
-        new_tower.append(new_brick)
-        for x in range(brick[0], brick[3] + 1):
-            for y in range(brick[1], brick[4] + 1):
-                tallest[(x, y)] = new_brick[5]
-    return falls, new_tower
-
-
-bricks = sorted(
-    [list(map(int, re.findall(r"\d+", line))) for line in open(0).read().splitlines()],
-    key=lambda brick: brick[2],
+overlaps = lambda a, b: max(a[0], b[0]) <= min(a[3], b[3]) and max(a[1], b[1]) <= min(
+    a[4], b[4]
 )
 
-_, fallen = drop(bricks)
+for i, a in enumerate(bricks):
+    mz = 1
+    for b in bricks[:i]:
+        if overlaps(a, b):
+            mz = max(mz, b[5] + 1)
+    a[5] -= a[2] - mz
+    a[2] = mz
+
+bricks.sort(key=lambda x: x[2])
+
+a_b = {i: set() for i in range(len(bricks))}
+b_a = {i: set() for i in range(len(bricks))}
+
+for j, upper in enumerate(bricks):
+    for i, lower in enumerate(bricks[:j]):
+        if overlaps(lower, upper) and upper[2] == lower[5] + 1:
+            a_b[i].add(j)
+            b_a[j].add(i)
 
 t = 0
 
-for i in range(len(fallen)):
-    removed = fallen[:i] + fallen[i + 1 :]
-    falls, _ = drop(removed)
-    if not falls:
+for i in range(len(bricks)):
+    if all(len(b_a[j]) >= 2 for j in a_b[i]):
         t += 1
 
 print(t)
