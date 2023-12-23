@@ -25,7 +25,7 @@
     {
       devShells.default = pkgs.mkShell {
         packages =
-          (with pkgs; [ python pyright black pylint ]) ++
+          (with pkgs; [ python pypy310 pyright black pylint ]) ++
           (with pkgs.pythonPackages;
           [
             more-itertools
