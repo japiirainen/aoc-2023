@@ -34,6 +34,7 @@
             networkx
             matplotlib
             requests
+            z3
           ]);
 
         shellHook = with pkgs;
