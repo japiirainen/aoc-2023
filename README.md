@@ -2,6 +2,13 @@
 
 My [Advent of Code 2023](https://adventofcode.com/2023) solutions.
 
+## Table of Contents
+- [Advent of Code 2023](#advent-of-code-2023)
+  - [Table of Contents](#table-of-contents)
+  - [Usage](#usage)
+    - [Getting input](#getting-input)
+    - [Running solutions](#running-solutions)
+
 ## Usage
 
 ### Getting input
