@@ -8,39 +8,46 @@
   };
 
   outputs =
-    { nixpkgs
-    , flake-utils
-    , ...
+    {
+      nixpkgs,
+      flake-utils,
+      ...
     }:
 
-    flake-utils.lib.eachDefaultSystem (system:
-    let
-      overlays = [
-        (_: super: {
-          python = super.python311;
-        })
-      ];
-      pkgs = import nixpkgs { inherit overlays system; };
-    in
-    {
-      devShells.default = pkgs.mkShell {
-        packages =
-          (with pkgs; [ python pypy310 pyright black pylint ]) ++
-          (with pkgs.pythonPackages;
-          [
-            more-itertools
-            numpy
-            sympy
-            networkx
-            matplotlib
-            requests
-            z3
-          ]);
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        overlays = [
+          (_: super: {
+            python = super.python311;
+          })
+        ];
+        pkgs = import nixpkgs { inherit overlays system; };
+      in
+      {
+        devShells.default = pkgs.mkShell {
+          packages =
+            (with pkgs; [
+              python
+              pypy310
+              pyright
+              ruff
+              pylint
+            ])
+            ++ (with pkgs.pythonPackages; [
+              more-itertools
+              numpy
+              sympy
+              networkx
+              matplotlib
+              requests
+              z3
+            ]);
 
-        shellHook = with pkgs;
-          ''
+          shellHook = with pkgs; ''
             ${python}/bin/python --version
           '';
-      };
-    });
+        };
+      }
+    );
 }
